@@ -1,4 +1,5 @@
-use rand::{seq::SliceRandom, thread_rng, Rng};
+use rand::{seq::SliceRandom, thread_rng};
+use std::fmt::Write;
 use crate::graph::Point;
 use super::super::Graph;
 use super::point::CartesianPoint;
@@ -58,6 +59,14 @@ impl CartesianPlane {
             let pnt = self.get_element(*ind).unwrap();
             println!("{:?}, {:?}", pnt.x, pnt.y);
         }
+    }
+    pub fn string_points(&self, v: &Vec<u32>) -> String{
+        let mut ret_str = String::from("");
+        for ind in v.iter(){
+            let pnt = self.get_element(*ind).unwrap();
+            write!(ret_str, "{:?}, {:?}\n", pnt.x, pnt.y).unwrap();
+        }
+        return ret_str;
     }
 }
 impl Graph for CartesianPlane {

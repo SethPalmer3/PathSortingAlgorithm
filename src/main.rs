@@ -1,5 +1,5 @@
 use rand::{seq::SliceRandom, thread_rng, Rng};
-// use plotters::prelude::*;
+use std::fs;
 use graph::{Graph, Point};
 use graph::cartesian::{graph::CartesianPlane, point::CartesianPoint};
 pub mod graph;
@@ -18,8 +18,7 @@ fn main() {
     let mut path: Vec<u32> = (0..pnt_size).collect();
     path.shuffle(&mut thread_rng());
     // println!("{:?}, {:?}", path, cg.path_dist(&path));
-    cg.sort_path(&mut path, pnt_size*pnt_size);
-    println!("{:?}, {:?}", path, cg.path_dist(&path));
-    cg.print_points(&path);
+    cg.sort_path(&mut path, 500);
+    let _ = fs::write("./data.csv", cg.string_points(&path));
 
 }
