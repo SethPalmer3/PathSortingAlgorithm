@@ -13,6 +13,7 @@ if __name__ == "__main__":
                 ys.append(int(y))
             except:
                 pass
+        plt.scatter(xs, ys)
         plt.plot(xs, ys)
         plt.show()
 

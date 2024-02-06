@@ -11,6 +11,6 @@ pub trait Graph {
     fn new() -> Self;
     fn add(&mut self, p: Self::P);
     fn get_element(&self, i: Self::I) -> Option<&Self::P>;
-    fn path_dist(&self, v: &Vec<Self::I>) -> Option<f64>;
+    fn path_dist(&self, v: &[Self::I]) -> Option<f64>;
     fn swap(&mut self, a: Self::I, b: Self::I);
 }
