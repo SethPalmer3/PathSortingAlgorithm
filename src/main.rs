@@ -7,7 +7,7 @@ pub mod graph;
 fn main() {
     let mut cg = CartesianPlane::new();
     let mut rng = rand::thread_rng();
-    let pnt_size = 10;
+    let pnt_size = 20;
     (0..pnt_size).for_each(|i| {
         let mut pnt = CartesianPoint::new(i);
         pnt.x = rng.gen_range(-10..=10);
@@ -18,12 +18,7 @@ fn main() {
     let mut path: Vec<u32> = (0..pnt_size).collect();
     path.shuffle(&mut thread_rng());
     // println!("{:?}, {:?}", path, cg.path_dist(&path));
-    let mut current_best_dist = f64::MAX;
-    while current_best_dist - cg.path_dist(&path).unwrap() > 0.0{
-        current_best_dist = cg.path_dist(&path).unwrap();
-        println!("{:?}", current_best_dist);
-        cg.sort_path(&mut path);
-    }
+    cg.sort_path(&mut path, pnt_size*pnt_size);
     println!("{:?}, {:?}", path, cg.path_dist(&path));
     cg.print_points(&path);
 

@@ -1,3 +1,4 @@
+use rand::{seq::SliceRandom, thread_rng, Rng};
 use crate::graph::Point;
 use super::super::Graph;
 use super::point::CartesianPoint;
@@ -16,8 +17,8 @@ impl CartesianPlane {
         }
         return None;
     }
-    pub fn sort_path(&self, v: &mut Vec<u32>) {
-        let mut current_path_dist = f64::MAX;
+    pub fn sort_iteration(&self, v: &mut Vec<u32>) {
+        let mut current_path_dist;
         for i in 0..v.len()-1{
             current_path_dist = self.path_dist(v).unwrap();
             for k in i+1..v.len(){
@@ -29,6 +30,28 @@ impl CartesianPlane {
                 }
             }
         }
+
+    }
+    pub fn sort_path(&self, v: &mut Vec<u32>, num_fails: u32) {
+        let mut best_path = v.clone();
+        let mut count = 0;
+        let mut current_best_dist;
+        while count < num_fails{
+            v.shuffle(&mut thread_rng());
+            current_best_dist = f64::MAX;
+            while current_best_dist - self.path_dist(v).unwrap() > 0.0{
+                current_best_dist = self.path_dist(v).unwrap();
+                self.sort_iteration(v);
+            }
+            if self.path_dist(&best_path).unwrap() > self.path_dist(&v).unwrap(){
+                best_path = v.clone();
+                count = 0;
+                println!("{:?}", self.path_dist(&best_path).unwrap());
+            }else{
+                count += 1;
+            }
+        }
+        *v = best_path.clone();
     }
     pub fn print_points(&self, v: &Vec<u32>){
         for ind in v.iter(){
